@@ -2,19 +2,19 @@
 
 //inizializziamo la classe
 class Product{
-  public $category;
-  public $prodType;
+  
+  
   public $img;
   public $title;
   public $prize;
   
  
 
-  function __construct($_category,$_prodType,$_img,$_title,$_prize)
+  function __construct($_img,$_title,$_prize)
   {
       
-      $this-> category = $_category;
-      $this-> prodType =$_prodType;
+      
+      
       $this-> img = $_img;
       $this-> title = $_title;
       $this-> prize = $_prize;
@@ -22,22 +22,45 @@ class Product{
   }
 };
 
-// class Cibo extends Product{
-//   private $category = 'cibo';
+ class ProductType extends Product{
+  public $prodType;
 
-//    function __construct($_img,$_title){
-//       parent:: __construct($_category,$_img,$_title,$_prize);
-      
-//   }
-// }
+   function __construct($_prodType,$_img,$_title,$_prize){
+      parent:: __construct($_img,$_title,$_prize);
+      $this-> prodType =$_prodType;
+  } }
+
+ 
+
+   class CategoryProduct extends ProductType { 
+    public $category;
+
+    function __construct($_category,$_prodType,$_img,$_title,$_prize)
+    {
+      parent:: __construct($_prodType,$_img,$_title,$_prize);
+      $this-> category = $_category;
+    }
+
+    public function get_product(){
+
+      return "{$this->img} <br> {$this->title}, prezzo {$this->prize}$ Categoria {$this->prodType} per {$this->category}";
+    }
+
+  }
 
 //creaiamo le istanze
-$crocchettePerGatti = new Product('gatto','cibo','imgCrocchetteGatti','Crocchette per gatti','10');
-$cucciaGrande = new Product('cani','cucce','imgCucciaGrande','Palla','16');
-$palla = new Product('gatto','giochi','imgPalla','Palla','5');
+// $crocchettePerGatti = new CategoryProduct('gatti','cibo','imgCrocchetteGatti','Crocchette per gatti','10');
+// $cucciaGrande = new CategoryProduct('cani','cucce','imgCucciaGrande','Cuccia grande','16');
+// $palla = new CategoryProduct('gatti','giochi','imgPalla','Palla','5');
+
+$products = [
+  new CategoryProduct('gatti','cibo','imgCrocchetteGatti','Crocchette per gatti','10'),
+  new CategoryProduct('cani','cucce','imgCucciaGrande','Cuccia grande','16'),
+  new CategoryProduct('gatti','giochi','imgPalla','Palla','5'),
+];
 
 
-var_dump($crocchettePerGatti,$cucciaGrande,$palla)
+// var_dump($crocchettePerGatti,$cucciaGrande,$palla);
 // class gatto {
 
 // }
@@ -54,6 +77,9 @@ var_dump($crocchettePerGatti,$cucciaGrande,$palla)
   <title>E-commerce</title>
 </head>
 <body>
-  
+  <?php foreach($products as $product): ?>
+    <div> <?php echo $product->get_product() ?></div>
+    <br>
+  <?php endforeach;?>
 </body>
 </html>

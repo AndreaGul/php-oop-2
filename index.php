@@ -15,12 +15,25 @@ class Product{
       
       
       
+      
       $this-> img = $_img;
       $this-> title = $_title;
       $this-> prize = $_prize;
       
   }
+
+  function controlPrice($_prize){
+  if($_prize === 0){
+        throw new Exception ("Prezzo non valido <br>");
+      };
+    
+  }
+  
+   
+
+
 };
+
 
  class ProductType extends Product{
   public $prodType;
@@ -55,7 +68,7 @@ class Product{
 
 $products = [
   new CategoryProduct('gatti','cibo','imgCrocchetteGatti','Crocchette per gatti','10'),
-  new CategoryProduct('cani','cucce','imgCucciaGrande','Cuccia grande','16'),
+  new CategoryProduct('cani','cucce','imgCucciaGrande','Cuccia grande',0),
   new CategoryProduct('gatti','giochi','imgPalla','Palla','5'),
 ];
 
@@ -78,7 +91,14 @@ $products = [
 </head>
 <body>
   <?php foreach($products as $product): ?>
-    <div> <?php echo $product->get_product() ?></div>
+    <div> <?php
+    try {
+       echo  $product->controlPrice($product->prize);
+     } catch (Exception $error){
+       echo $error->getMessage();
+       
+    };
+       echo $product->get_product() ?></div>
     <br>
   <?php endforeach;?>
 </body>
